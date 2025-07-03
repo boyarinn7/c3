@@ -6,7 +6,7 @@
     <title>Калькулятор «Эксперт»</title>
 <style>
   :root {
-    --calc-width: 400px;
+    --calc-width: 600px;
     --poster-width: 400px; 
     --calc-column-gap: 8px;
     --calc-row-gap: 8px;
@@ -623,6 +623,65 @@
 .quick-order-form .btn-download {
   min-width: 8rem; /* подберите значение, пока текст не начнёт переноситься */
 }
+/* Холд флекса для текста */
+.order-note--combined {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-top: 8px;
+}
+.order-engineer-text {
+  font-size: var(--calc-font-size);
+  font-weight: bold;
+}
+.order-legal-inline {
+  font-size: calc(var(--calc-font-size) - 0.2rem);
+}
+/* Центрируем поля и кнопки в одну строку */
+.quick-order-form {
+  display: flex;
+  align-items: center;
+  gap: var(--calc-column-gap);
+}
+
+/* Поля растягиваются, высота как в калькуляторе */
+.quick-order-form input {
+  flex: 1;
+  padding: 6px;
+  font-size: var(--calc-font-size);
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+/* Кнопки не растягиваются, шрифт как в полях */
+.quick-order-form .btn {
+  flex: 0 0 auto;
+  font-size: var(--calc-font-size);
+  padding: 0 12px;
+}
+.quick-order-form .btn-download {
+  min-width: 8rem; /* подберите под ваш текст */
+}
+
+/* Расставляем текст по краям */
+.order-note--combined {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-top: 8px;
+}
+.order-engineer-text {
+  font-size: var(--calc-font-size);
+  font-weight: bold;
+}
+.order-legal-inline {
+  font-size: calc(var(--calc-font-size) - 0.2rem);
+}
+
+
 
 
 </style>
@@ -1104,26 +1163,23 @@ document.addEventListener('DOMContentLoaded', () => {
       <span>Стоимость всех работ:</span>
       <span>${new Intl.NumberFormat('ru-RU').format(grandTotal)} ₽</span>
     </div>
-
-    <!-- ---- БЛОК БЫСТРОГО ЗАКАЗА ---- -->
       <form id="quick-order-form" class="quick-order-form">
-        <div class="order-fields">
-          <input type="text" name="customerName"  placeholder="Ваше имя"    required>
-          <input type="tel"  name="customerPhone" placeholder="Ваш телефон" required>
-          <button type="submit"   class="btn btn-order">Заказать</button>
-          <button type="button"   class="btn btn-download">Скачать смету</button>
-        </div>
-        <p class="order-note order-note--combined">
-  <span class="order-engineer-text">
-    Наш инженер свяжется с Вами в ближайшее время.
-  </span>
-  <span class="order-legal-inline">
-    Отправляя заявку Вы даёте
-    <a href="/privacy-policy" class="order-legal-link">согласие на обработку персональных данных</a>.
-  </span>
-</p>
-
-
+    <input type="text" name="customerName"  placeholder="Ваше имя"    required>
+    <input type="tel"  name="customerPhone" placeholder="Ваш телефон" required>
+    <button type="submit" class="btn btn-order">Заказать</button>
+    <button type="button" class="btn btn-download">Скачать смету</button>
+  </form>
+  <p class="order-note order-note--combined">
+    <span class="order-engineer-text">
+      Наш инженер свяжется с Вами в ближайшее время.
+    </span>
+    <span class="order-legal-inline">
+      Отправляя заявку Вы даёте
+      <a href="/privacy-policy" class="order-legal-link">
+        согласие на обработку персональных данных
+      </a>.
+    </span>
+  </p>
 
       </form>
     </div>
