@@ -25,14 +25,7 @@
     display: flex !important;
     flex-direction: column;
   }
-  #estimate-output-container .estimate-block:first-child h3.estimate-title::before {
-    content: "Смета"; 
-    display: block;
-    font-size: 1.2rem;
-    text-align: center;
-    margin-bottom: 8px;
-  }
-
+  
   body {
     background-color: #f0f2f5;
   }
@@ -680,6 +673,27 @@
 .order-legal-inline {
   font-size: calc(var(--calc-font-size) - 0.2rem);
 }
+/* По умолчанию показываем */
+#estimate-output-container {
+  display: block;
+}
+/* Когда нет класса is-open — скрываем */
+#estimate-output-container:not(.is-open) {
+  display: none;
+}
+/* Все поля и кнопки — одинаковой стандартной высоты */
+#full-calculator input,
+.quick-order-form input,
+.quick-order-form .btn {
+  height: 2.5rem; /* стандартная высота полей калькулятора */
+  line-height: 2.5rem;
+  font-size: var(--calc-font-size);
+}
+
+/* Учитываем вертикальное выравнивание текста */
+.quick-order-form .btn {
+  padding: 0 12px;
+}
 
 
 
@@ -923,6 +937,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // --- ЛОГИКА ИНТЕРФЕЙСА КАЛЬКУЛЯТОРА ---
   titleFrame.addEventListener('click', () => {
       calculatorContainer.classList.toggle('is-open');
+      estimateOutputContainer.classList.toggle('is-open'); // добавили
       setTimeout(setPosterHeight, 500);
   });
   calculatorContainer.classList.add('is-open');
