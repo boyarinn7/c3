@@ -20,11 +20,6 @@
     --light-gray-bg: #f9f9f9; /* Светло-серый фон */
     font-family: sans-serif;
   }
-    /* сразу после :root { … } */
-  #estimate-output-container {
-    display: flex !important;
-    flex-direction: column;
-  }
   
   body {
     background-color: #f0f2f5;
@@ -673,10 +668,7 @@
 .order-legal-inline {
   font-size: calc(var(--calc-font-size) - 0.2rem);
 }
-/* По умолчанию показываем */
-#estimate-output-container {
-  display: block;
-}
+
 /* Когда нет класса is-open — скрываем */
 #estimate-output-container:not(.is-open) {
   display: none;
