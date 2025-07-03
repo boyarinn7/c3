@@ -20,6 +20,18 @@
     --light-gray-bg: #f9f9f9; /* Светло-серый фон */
     font-family: sans-serif;
   }
+    /* сразу после :root { … } */
+  #estimate-output-container {
+    display: flex !important;
+    flex-direction: column;
+  }
+  #estimate-output-container .estimate-block:first-child h3.estimate-title::before {
+    content: "Смета"; 
+    display: block;
+    font-size: 1.2rem;
+    text-align: center;
+    margin-bottom: 8px;
+  }
 
   body {
     background-color: #f0f2f5;
