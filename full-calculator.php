@@ -20,6 +20,18 @@
     --light-gray-bg: #f9f9f9; /* Светло-серый фон */
     font-family: sans-serif;
   }
+    /* сразу после :root { … } */
+  #estimate-output-container {
+    display: flex !important;
+    flex-direction: column;
+  }
+  #estimate-output-container .estimate-block:first-child h3.estimate-title::before {
+    content: "Смета"; 
+    display: block;
+    font-size: 1.2rem;
+    text-align: center;
+    margin-bottom: 8px;
+  }
 
   body {
     background-color: #f0f2f5;
@@ -477,6 +489,65 @@
       color: var(--clear-color);
       font-size: var(--calc-font-size);
   }
+  /* ========== СТИЛИ ДЛЯ БЛОКА ЗАКАЗА ========== */
+
+.order-block {
+  margin-top: 16px;
+  padding: 16px;
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+}
+
+/* Контейнер полей+кнопок в одной строке */
+.quick-order-form .order-fields {
+  display: flex;
+  align-items: center;
+  gap: var(--calc-column-gap);  /* как между плакатами */
+}
+
+/* Универсальный стиль инпутов */
+.order-fields input {
+  /* стандартная высота, как в калькуляторе */
+  height: 2.5rem;  
+  /* ширина = 3 «одинарных» поля (3 колонки из 4) */
+  width: calc(var(--calc-width) / 4 * 3);
+  padding: 6px;
+  font-size: var(--calc-font-size);
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+/* Стиль для кнопок в той же строке */
+.order-fields .btn {
+  height: 2.5rem;
+  padding: 0 12px;
+}
+
+/* Стили текста под формой */
+.order-note {
+  margin: 8px 0 0;
+  font-size: var(--calc-font-size);
+}
+
+/* Жирный первый текст */
+.order-note--bold {
+  font-weight: bold;
+}
+
+/* Мелкий текст на 2 размера меньше */
+.order-note--small {
+  font-size: calc(var(--calc-font-size) - 0.2rem);
+  font-weight: normal;
+}
+
+/* Ссылка на обработку данных */
+.order-legal-link {
+  text-decoration: underline;
+  color: inherit;
+}
+
 </style>
 </head>
 <body>
@@ -951,16 +1022,39 @@ document.addEventListener('DOMContentLoaded', () => {
               </div>
           </div>
           <div class="estimate-block">
-              ${deliveryHTML}
-              <div class="estimate-total-row">
-                  <span>Стоимость всех работ:</span>
-                  <span>${new Intl.NumberFormat('ru-RU').format(grandTotal)} ₽</span>
-              </div>
-          </div>
-      `;
+    ${deliveryHTML}
+    <div class="estimate-total-row">
+      <span>Стоимость всех работ:</span>
+      <span>${new Intl.NumberFormat('ru-RU').format(grandTotal)} ₽</span>
+    </div>
 
-      estimateOutputContainer.innerHTML = outputHTML;
-      attachActionListeners();
+    <!-- ---- БЛОК БЫСТРОГО ЗАКАЗА ---- -->
+    <div class="order-block">
+      <form id="quick-order-form" class="quick-order-form">
+        <div class="order-fields">
+          <input type="text" name="customerName"  placeholder="Ваше имя"    required>
+          <input type="tel"  name="customerPhone" placeholder="Ваш телефон" required>
+          <button type="submit"   class="btn btn-order">Заказать</button>
+          <button type="button"   class="btn btn-download">Скачать смету</button>
+        </div>
+        <p class="order-note order-note--bold">
+          Наш инженер свяжется с Вами в ближайшее время.
+        </p>
+        <p class="order-note order-note--small">
+          Отправляя заявку Вы даете
+          <a href="/privacy-policy" target="_blank" class="order-legal-link">
+            согласие на обработку персональных данных
+          </a>.
+        </p>
+      </form>
+    </div>
+    <!-- ---- конец order-block ---- -->
+
+  </div>
+`;
+estimateOutputContainer.innerHTML = outputHTML;
+attachActionListeners();
+
   }
   
   function attachActionListeners() {
