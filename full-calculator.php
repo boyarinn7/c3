@@ -489,15 +489,27 @@
       color: var(--clear-color);
       font-size: var(--calc-font-size);
   }
-  /* ========== СТИЛИ ДЛЯ БЛОКА ЗАКАЗА ========== */
-
-.order-block {
-  margin-top: 16px;
-  padding: 16px;
-  background: #fff;
-  border: 1px solid #e0e0e0;
-  border-radius: 4px;
+  /* Флекс-контейнер для двух строк */
+.order-note--combined {
+  display: flex;
+  justify-content: space-between; /* инженера — слева, согласие — справа */
+  align-items: center;
+  margin-top: 8px;
 }
+
+/* Стиль для левой части (инженер) */
+.order-engineer-text {
+  font-size: var(--calc-font-size);
+  font-weight: bold;
+}
+
+/* Стиль для правой части (согласие) */
+.order-legal-inline {
+  font-size: calc(var(--calc-font-size) - 0.2rem);
+  font-weight: normal;
+}
+
+  /* ========== СТИЛИ ДЛЯ БЛОКА ЗАКАЗА ========== */
 
 /* Контейнер полей+кнопок в одной строке */
 .quick-order-form .order-fields {
@@ -507,10 +519,38 @@
 }
 
 /* Универсальный стиль инпутов */
+.order-fields .btn {
+  font-size: var(--calc-font-size);
+  height: 2.5rem; /* или auto, если кнопки выглядят лучше по высоте */
+  padding: 0 12px;
+}
+
 .order-fields input {
-  /* стандартная высота, как в калькуляторе */
-  height: 2.5rem;  
-  /* ширина = 3 «одинарных» поля (3 колонки из 4) */
+  /* даём автоматическую высоту, как в калькуляторе */
+  height: auto;
+  padding: 6px;
+  font-size: var(--calc-font-size);
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  /* Ширина оставляем ту же: */
+  width: calc(var(--calc-width) / 4 * 3);
+}
+/* Новый комбинированный параграф */
+.order-note--combined {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* отступ между «Наш инженер…» и «Отправляя заявку…» */
+  font-size: var(--calc-font-size);
+  font-weight: bold;
+  margin: 8px 0 0;
+}
+
+/* Инлайн-текст с юридической ссылкой */
+.order-legal-inline {
+  font-size: calc(var(--calc-font-size) - 0.2rem);
+}
+
   width: calc(var(--calc-width) / 4 * 3);
   padding: 6px;
   font-size: var(--calc-font-size);
@@ -523,6 +563,10 @@
 .order-fields .btn {
   height: 2.5rem;
   padding: 0 12px;
+}
+/* 2. Уменьшаем шрифт кнопки «Скачать смету» */
+.btn-download {
+  font-size: calc(var(--calc-font-size) - 0.3rem);
 }
 
 /* Стили текста под формой */
@@ -547,6 +591,39 @@
   text-decoration: underline;
   color: inherit;
 }
+/* В конец вашего <style> */
+.order-fields .btn-download {
+  font-size: calc(var(--calc-font-size) - 0.2rem) !important;
+}
+/* Форма в одну строку, ширина всей estimate-block */
+.quick-order-form {
+  display: flex;
+  gap: var(--calc-column-gap); /* отступ между элементами */
+  padding: 16px;               /* если нужно внутренние отступы */
+}
+
+/* Поля растягиваются поровну, одинаковая высота с калькулятором */
+.quick-order-form input {
+  flex: 1;
+  padding: 6px;
+  font-size: var(--calc-font-size);
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+/* Кнопки того же размера текста, что и поля */
+.quick-order-form .btn {
+  font-size: var(--calc-font-size);
+  padding: 0 16px;
+  height: auto;
+}
+
+/* Удлиняем «Скачать смету», чтобы текст влезал */
+.quick-order-form .btn-download {
+  min-width: 8rem; /* подберите значение, пока текст не начнёт переноситься */
+}
+
 
 </style>
 </head>
@@ -1029,7 +1106,6 @@ document.addEventListener('DOMContentLoaded', () => {
     </div>
 
     <!-- ---- БЛОК БЫСТРОГО ЗАКАЗА ---- -->
-    <div class="order-block">
       <form id="quick-order-form" class="quick-order-form">
         <div class="order-fields">
           <input type="text" name="customerName"  placeholder="Ваше имя"    required>
@@ -1037,15 +1113,18 @@ document.addEventListener('DOMContentLoaded', () => {
           <button type="submit"   class="btn btn-order">Заказать</button>
           <button type="button"   class="btn btn-download">Скачать смету</button>
         </div>
-        <p class="order-note order-note--bold">
-          Наш инженер свяжется с Вами в ближайшее время.
-        </p>
-        <p class="order-note order-note--small">
-          Отправляя заявку Вы даете
-          <a href="/privacy-policy" target="_blank" class="order-legal-link">
-            согласие на обработку персональных данных
-          </a>.
-        </p>
+        <p class="order-note order-note--combined">
+  <span class="order-engineer-text">
+    Наш инженер свяжется с Вами в ближайшее время.
+  </span>
+  <span class="order-legal-inline">
+    Отправляя заявку Вы даёте
+    <a href="/privacy-policy" class="order-legal-link">согласие на обработку персональных данных</a>.
+  </span>
+</p>
+
+
+
       </form>
     </div>
     <!-- ---- конец order-block ---- -->
