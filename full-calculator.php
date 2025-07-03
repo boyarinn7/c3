@@ -682,10 +682,11 @@
   display: none;
 }
 /* Все поля и кнопки — одинаковой стандартной высоты */
-#full-calculator input,
-.quick-order-form input,
+/* Поля без ползунка + кнопки */
+#full-calculator input:not([type="range"]),
+.quick-order-form input:not([type="range"]),
 .quick-order-form .btn {
-  height: 2.5rem; /* стандартная высота полей калькулятора */
+  height: 2.5rem;
   line-height: 2.5rem;
   font-size: var(--calc-font-size);
 }
@@ -694,6 +695,20 @@
 .quick-order-form .btn {
   padding: 0 12px;
 }
+/* Скрытое состояние сметы */
+#estimate-output-container {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height 0.5s ease-out, opacity 0.3s ease-out;
+}
+
+/* Раскрытое состояние */
+#estimate-output-container.is-open {
+  max-height: 1000px; /* или другое большое значение */
+  opacity: 1;
+}
+
 
 
 
@@ -940,7 +955,7 @@ document.addEventListener('DOMContentLoaded', () => {
       estimateOutputContainer.classList.toggle('is-open'); // добавили
       setTimeout(setPosterHeight, 500);
   });
-  calculatorContainer.classList.add('is-open');
+  //calculatorContainer.classList.add('is-open');
 
   estimateCheckboxes.forEach(checkbox => {
     checkbox.addEventListener('click', () => {
