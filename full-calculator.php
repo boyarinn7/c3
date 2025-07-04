@@ -18,11 +18,55 @@
     --clear-color: #dc3545; /* Красный цвет для очистки */
     --track-color: #ddd;
     --light-gray-bg: #f9f9f9; /* Светло-серый фон */
+    --control-height: 2rem; /* теперь центр управления высотой */
+    --poster-height: 378px; /* <- здесь задаёшь любую высоту плакатов */
+    --calc-result-offset-x: 120px; /* 1) Сдвиг цифры «Предварительная стоимость работ» */
+    --estimate-total-value-offset-x: -650px; /*  →  смещение цифры в строке "Стоимость всех работ:" */
+    --estimate-title-shift-x: -55px; /* 3) Горизонтальный сдвиг заголовка «Смета по кладке, штукатурке» */   
+    --calc-label-shift-x: 35px; /* 1) Сдвиг надписи «Предварительная стоимость работ» */
+    --estimate-title-shift: 0px; /* 2) Горизонтальный сдвиг заголовка «Смета по кладке, штукатурке» */
+    --engineer-note-shift-x: 17px; /* 3) Сдвиг надписи «Наш инженер свяжется с Вами…» */
     font-family: sans-serif;
   }
   
   body {
     background-color: #f0f2f5;
+  }
+    /* 1) «Предварительная стоимость работ» */
+  #calcResult {
+    margin-left: var(--calc-result-offset-x);
+  }
+
+    /* 2) Оставляем display:flex, но даём относительное смещение второму спану */
+  .estimate-total-row > span:last-child {
+    position: relative;
+    left: var(--estimate-total-value-offset-x);
+  }
+
+    /* 3) Заголовок внутри estimate-intro-header */
+  .estimate-intro-header .estimate-title {
+    /* translateX позволяет двигать в обе стороны (положительное вправо, отрицательное — влево) */
+    transform: translateX(var(--estimate-title-shift-x));
+  }
+    /* 1) Подпись «Предварительная стоимость работ» */
+  .calc-total-row > div > label {
+    display: inline-block;               /* чтобы margin работал */
+    margin-left: var(--calc-label-shift-x);
+  }
+    /* 3) Надпись «Наш инженер свяжется с Вами…» */
+  .order-engineer-text {
+    display: inline-block;
+    margin-left: var(--engineer-note-shift-x);
+  }
+    /* 2) Заголовок сметы: ставим абсолютное позиционирование */
+  .estimate-intro-header {
+    position: relative;                   /* для «отсчёта» абсолютной позиции заголовка */
+  }
+  .estimate-intro-header .estimate-title {
+    position: absolute;
+    left: 50%;                            /* центрируем по середине контейнера */
+    transform: translateX(calc(-50% + var(--estimate-title-shift)));
+    margin: 0;                            /* сбрасываем стандартные отступы h3 */
   }
 
   /* Внешний контейнер */
@@ -201,6 +245,7 @@
     gap: var(--calc-column-gap);
     width: var(--poster-width);
     margin-top: -12px;
+    height: var(--poster-height) !important;
   }
   
   .tariff-posters {
@@ -376,16 +421,25 @@
     border: 1px solid #e0e0e0;
   }
   .estimate-intro-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
   .estimate-intro-data {
-      display: flex;
-      justify-content: space-around;
-      margin-top: 16px;
-      font-size: var(--calc-font-size);
+    display: flex;
+    justify-content: flex-start;       /* выравниваем слева */
+    gap: var(--calc-column-gap);        /* равномерный маленький отступ */
+    margin-top: 16px;
+    font-size: var(--calc-font-size);
+    align-items: baseline;             /* обеспечит правильный базовый выровненный текст */
   }
+  .estimate-intro-data .intro-item {
+    display: flex;           /* чтобы label и value были в ряд */
+    gap: 0.25em;             /* небольшой пробел внутри группы */
+    align-items: baseline;
+  }
+
+
   .estimate-title {
       font-size: 1.1rem;
       font-weight: bold;
@@ -678,8 +732,8 @@
 #full-calculator input:not([type="range"]),
 .quick-order-form input:not([type="range"]),
 .quick-order-form .btn {
-  height: 2.5rem;
-  line-height: 2.5rem;
+  height: var(--control-height);
+  line-height: var(--control-height);
   font-size: var(--calc-font-size);
 }
 
@@ -700,9 +754,35 @@
   max-height: 1000px; /* или другое большое значение */
   opacity: 1;
 }
+/* === Вставьте в конец <style> === */
 
+/* Жёсткая единая высота и выравнивание для всех полей и селектов */
+#full-calculator input:not([type="range"]),
+#full-calculator select {
+  height: var(--control-height);           /* аналогично быстрому заказу и стандартным полям */
+  line-height: var(--control-height);
+  padding: 6px;
+  font-size: var(--calc-font-size);
+  box-sizing: border-box;
+}
 
+/* Кнопки внутри калькулятора (если есть) */
+#full-calculator button {
+  height: 2.5rem;
+  line-height: 2.5rem;
+  padding: 0 12px;
+  font-size: var(--calc-font-size);
+}
 
+/* Исключаем слайдер */
+#full-calculator input[type="range"] {
+  height: auto;
+  line-height: normal;
+}
+/* Уменьшаем пробел сразу после меток в заголовке сметы */
+.estimate-intro-data strong {
+  margin-right: 0.05em;  /* можно варьировать: 0.1em…0.3em */
+}
 
 
 </style>
@@ -864,7 +944,7 @@
             </div>
             <div id="add-to-estimate-btn" class="add-to-estimate">
                 <div class="icon"></div>
-                <div class="text">Внести в смету</div>
+                <div class="text">Выбранное внести в смету</div>
             </div>
         </div>
       </form>
@@ -1112,10 +1192,21 @@ document.addEventListener('DOMContentLoaded', () => {
       const objectType = objectTypeEl.value ? objectTypeEl.options[objectTypeEl.selectedIndex].text : '...';
       const location = locationEl.value ? locationEl.options[locationEl.selectedIndex].text : '...';
       
-      let introHTML = `<strong>Вид объекта:</strong> ${objectType} | <strong>Локация:</strong> ${location}`;
-      if (km > 0) {
-          introHTML += ` | <strong>Удаленность:</strong> ${km} км от МКАД`;
+      // собираем строку для локации
+      let locationDisplay = location;
+      if (form.elements['location'].value === 'region' && km > 0) {
+      // если выбрано "МО", добавляем сразу после названия
+      locationDisplay += `, ${km} км от МКАД`;
       }
+
+      let introHTML =
+        `<span class="intro-item">
+        <strong>Вид объекта:</strong>&nbsp;${objectType}
+        </span>
+        <span class="intro-item">
+        <strong>Локация:</strong>&nbsp;${locationDisplay}
+        </span>`;
+
 
       let grandTotal = 0;
       let hasMaterial = false;
