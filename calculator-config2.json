@@ -1,0 +1,104 @@
+{
+  "base_prices": {
+    "_comment": "Блок 1: Базовые цены на работы (за единицу, например, м² или п.м.), которые не зависят от объема.",
+    "masonry": {
+      "gas_block": {
+        "work_only": { "economy": 750, "business": 750, "elite": 750 }
+      },
+      "pgp": {
+        "work_only": { "economy": 750, "business": 750, "elite": 750 }
+      },
+      "ceramic": {
+        "work_only": { "economy": 1350, "business": 1350, "elite": 1350 }
+      },
+      "simple_lintel": {
+        "work_only": { "economy": 425, "business": 500, "elite": 625 },
+        "work_and_material": { "economy": 850, "business": 1000, "elite": 1250 }
+      },
+      "reinforced_lintel": {
+        "work_only": { "economy": 595, "business": 700, "elite": 875 },
+        "work_and_material": { "economy": 1190, "business": 1400, "elite": 1750 }
+      }
+    },
+    "plaster": {
+      "wall_gypsum": {},
+      "slope_gypsum": {
+        "work_only": { "economy": 340, "business": 400, "elite": 500 },
+        "work_and_material": { "economy": 680, "business": 800, "elite": 1000 }
+      },
+      "ceiling_gypsum": {
+        "work_only": { "economy": 680, "business": 800, "elite": 1000 },
+        "work_and_material": { "economy": 1360, "business": 1600, "elite": 2000 }
+      }
+    },
+    "extra": {
+      "mesh_fiberglass": {
+        "work_only": { "economy": 85, "business": 100, "elite": 125 },
+        "work_and_material": { "economy": 170, "business": 200, "elite": 250 }
+      }
+    }
+  },
+  "volume_prices": {
+    "_comment": "Блок 2: Цены, зависящие от объема (для штукатурки стен). Цена выбирается по первому совпадению 'upTo' (до какого объема). 'Infinity' означает 'и выше'.",
+    "plaster": {
+      "wall_gypsum": {
+        "work_and_material": {
+          "economy": [ { "upTo": 299, "price": 860 }, { "upTo": 499, "price": 840 }, { "upTo": 749, "price": 810 }, { "upTo": 1499, "price": 780 }, { "upTo": "Infinity", "price": 750 } ],
+          "business": [ { "upTo": 299, "price": 880 }, { "upTo": 499, "price": 860 }, { "upTo": 749, "price": 840 }, { "upTo": 1499, "price": 800 }, { "upTo": "Infinity", "price": 780 } ],
+          "elite": [ { "upTo": 299, "price": 980 }, { "upTo": 499, "price": 960 }, { "upTo": 749, "price": 940 }, { "upTo": 1499, "price": 900 }, { "upTo": "Infinity", "price": 880 } ]
+        },
+        "work_only": {
+          "economy": [ { "upTo": 499, "price": 600 }, { "upTo": 749, "price": 580 }, { "upTo": "Infinity", "price": 550 } ],
+          "business": [ { "upTo": 299, "price": 650 }, { "upTo": 499, "price": 640 }, { "upTo": 749, "price": 600 }, { "upTo": 1499, "price": 580 }, { "upTo": "Infinity", "price": 550 } ],
+          "elite": [ { "upTo": 299, "price": 620 }, { "upTo": 499, "price": 660 }, { "upTo": 749, "price": 620 }, { "upTo": 1499, "price": 600 }, { "upTo": "Infinity", "price": 570 } ]
+        }
+      }
+    }
+  },
+  "material_prices": {
+    "_comment": "Блок 3: Цены на мешки со смесями для расчета доп. слоя. 'price' - цена за мешок, 'weight' - вес мешка в кг.",
+    "economy": {
+      "gypsum": { "name": "Форман 12", "price": 350, "weight": 30 },
+      "cps": { "name": "Русеан", "price": 380, "weight": 40 }
+    },
+    "business": {
+      "gypsum": { "name": "Волма Гипс Актив", "price": 360, "weight": 30 },
+      "cps": { "name": "Крейзел 521", "price": 310, "weight": 30 }
+    },
+    "elite": {
+      "gypsum": { "name": "Кнауф МП 75", "price": 440, "weight": 30 },
+      "cps": { "name": "Старатели Оптимум", "price": 370, "weight": 30 }
+    }
+  },
+  "coefficients": {
+    "wall_material": { "ceramic": 1.023, "brick": 1.023 },
+    "mixture_consumption": { "gypsum": 8, "cps": 15 },
+    "masonry_weight_per_sqm": 25,
+    "cps_work_surcharge": 20
+  },
+  "logistics": {
+    "truck_5_ton_price": 6000,
+    "truck_2_5_ton_price": 4000,
+    "price_per_ton_per_km_outside_mkad": 100,
+    "unloading_price_per_ton_with_lift": 1500,
+    "unloading_price_per_ton_no_lift_base": 1500,
+    "unloading_price_per_ton_per_floor": 2000,
+    "free_carry_distance_m": 20,
+    "carry_price_per_10m_per_ton": 500
+  },
+  "_comments": {
+    "_comment": "Этот блок предназначен только для информации и не влияет на расчеты. Здесь даны пояснения к переменным из блоков 'coefficients' и 'logistics'.",
+    "coefficients.wall_material": "Коэффициенты наценки за материал стен (применяется к штукатурке)",
+    "coefficients.mixture_consumption": "Расход смеси в кг на 1 м² при толщине слоя 1 см",
+    "coefficients.masonry_weight_per_sqm": "Условный вес материалов для кладки (кг на м²)",
+    "coefficients.cps_work_surcharge": "Наценка за работу с ЦПС (цементно-песчаной смесью), руб.",
+    "logistics.truck_5_ton_price": "Цена за машину на 5 тонн, руб.",
+    "logistics.truck_2_5_ton_price": "Цена за машину на 2.5 тонны, руб.",
+    "logistics.price_per_ton_per_km_outside_mkad": "Цена за 1 тонно-километр за МКАД, руб.",
+    "logistics.unloading_price_per_ton_with_lift": "Цена разгрузки за 1 тонну при наличии лифта, руб.",
+    "logistics.unloading_price_per_ton_no_lift_base": "Базовая цена разгрузки за 1 тонну без лифта, руб.",
+    "logistics.unloading_price_per_ton_per_floor": "Цена за подъем 1 тонны на 1 этаж без лифта, руб.",
+    "logistics.free_carry_distance_m": "Бесплатная дистанция проноса материала, метры",
+    "logistics.carry_price_per_10m_per_ton": "Цена за пронос 1 тонны на каждые 10 метров сверх бесплатной дистанции, руб."
+  }
+}
